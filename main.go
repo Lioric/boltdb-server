@@ -23,21 +23,21 @@ var compressOn, verbose bool
 var log *lumber.ConsoleLogger
 
 func main() {
-	// flag.BoolVar(&verbose, "verbose", false, "verbosity")
-	// flag.BoolVar(&compressOn, "compress", false, "use compression")
-	// flag.StringVar(&dbpath, "db", path.Join(".", "dbs"), "path to the database")
-	// flag.StringVar(&port, "port", "8080", "port to listen on")
-	// flag.Parse()
+
 	app := cli.NewApp()
 	app.Name = "boltdb-server"
 	app.Usage = "fancy server for connecting to a BoltDB keystore"
 	app.Version = version
 	app.Compiled = time.Now()
 	app.Action = func(c *cli.Context) error {
+		fmt.Println("port:", port)
+
 		dbpath = c.GlobalString("db")
+		fmt.Println("dbpath:", dbpath)
 		compressOn = c.GlobalBool("compress")
 		verbose = c.GlobalBool("debug")
 		port = c.GlobalString("port")
+		fmt.Println("port:", port)
 		os.MkdirAll(dbpath, 0755)
 
 		if verbose {
@@ -148,7 +148,7 @@ func main() {
 			Usage: "turn on debug mode",
 		},
 	}
-app.Run(os.Args)
+	app.Run(os.Args)
 
 }
 
